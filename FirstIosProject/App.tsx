@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   Button,
@@ -18,17 +18,16 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import HomeScreen from "./HomeScreen"
-
-
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import HomeScreen from './HomeScreen';
 import Activity from './Activity';
+import {Provider as StoreProvider} from 'react-redux';
+import store from './store';
+import ReduxScreen from './ReduxScreen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -41,22 +40,21 @@ const Tab = createBottomTabNavigator();
 //
 const Drawer = createDrawerNavigator();
 
-
 function DrawerScreen({navigation}: {navigation: any}) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>I am Drawer Screen</Text>
       <Button
         title="Go to Activity"
         onPress={() => navigation.navigate('Acitvity')}
-      />      
+      />
     </View>
   );
 }
 
 function SettingsScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Settings!</Text>
     </View>
   );
@@ -65,21 +63,20 @@ function SettingsScreen() {
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
-     <HomeStack.Screen name="Home" component={HomeScreen} />             
-     <HomeStack.Screen name="Settings" component={SettingsScreen} />
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Settings" component={SettingsScreen} />
     </HomeStack.Navigator>
-   );
- }
+  );
+}
 
- function HomeDrawerScreen() {
+function HomeDrawerScreen() {
   return (
     <Drawer.Navigator>
-     <Drawer.Screen name="Home" component={HomeScreen} />             
-     <Drawer.Screen name="Settings" component={SettingsScreen} />
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="Settings" component={SettingsScreen} />
     </Drawer.Navigator>
-   );
- }
-
+  );
+}
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -87,18 +84,20 @@ function App(): JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  
+
   return (
     <NavigationContainer>
-    {/* when we will use stack navigator */}
-    <Tab.Navigator initialRouteName="Home">
-       <Tab.Screen name="HomePage" component={HomeStackScreen} />
-       <Tab.Screen name="DrawerScreen" component={DrawerScreen} />
-       <Tab.Screen name="Acitvity" component={Activity} />
-          {/* when we will use tab navigator */}          
-    </Tab.Navigator>
-    
-  </NavigationContainer>
+      <StoreProvider store={store}>
+        {/* when we will use stack navigator */}
+        <Tab.Navigator initialRouteName="Home">
+          <Tab.Screen name="HomePage" component={HomeStackScreen} />
+          <Tab.Screen name="DrawerScreen" component={DrawerScreen} />
+          <Tab.Screen name="Acitvity" component={Activity} />
+          <Tab.Screen name="ReduxScreen" component={ReduxScreen} />
+          {/* when we will use tab navigator */}
+        </Tab.Navigator>
+      </StoreProvider>
+    </NavigationContainer>
   );
 }
 

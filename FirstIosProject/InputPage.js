@@ -16,8 +16,6 @@ function InputPage() {
         sum = (sum + (text.charCodeAt(i)) - 96);
     }
  
-    console.log(sum)
-
     setCount(sum);
   }
 
