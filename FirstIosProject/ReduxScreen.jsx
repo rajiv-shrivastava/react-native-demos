@@ -1,6 +1,7 @@
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button,Platform, StyleSheet, Text, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {addnote, deletenote} from './actions';
+
 
 function ReduxScreen() {
   const notes = useSelector(state => state);
@@ -63,7 +64,7 @@ export default ReduxScreen;
 
 const styles = StyleSheet.create({
   sectionContainer: {
-    alignItems: 'center',
+    alignItems: 'center'
   },
   heading: {
     fontSize: 30,

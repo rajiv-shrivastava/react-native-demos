@@ -17,6 +17,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
+  Platform
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
@@ -105,6 +106,14 @@ const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
+    ...Platform.select({
+      ios: {
+        backgroundColor: 'red',
+      },
+      android: {
+        backgroundColor: 'green',
+      }
+    })
   },
   sectionTitle: {
     fontSize: 24,
